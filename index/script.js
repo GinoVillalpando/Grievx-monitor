@@ -6,19 +6,20 @@ async function sync() {
     return response.data;
   })
   .then((html) => {
+
+    // set variables that will parse the response.data as html
     let parser = new DOMParser();
-
-    console.log(html);
-
     let doc = parser.parseFromString(html, "text/html");
+    let stockButton = doc.querySelectorAll(".btn-cart");
 
-    let cartButton = doc.querySelector(".btn-cart");
-
-      if (cartButton.outerText === "ADD TO CART") {
-        cartButton.click();
+    // foreach loop that is checking if each button found with .btn-cart is available to check the text for add to cart
+    stockButton.forEach( btn => {
+      if (btn.innerText === "ADD TO CART") {
+          console.log("in-stock", btn.innerText);
       } else {
-        console.log('Card is out of stock');
+          console.log("not in-stock", btn.innerText);
       }
+    });
   });
 }
 
